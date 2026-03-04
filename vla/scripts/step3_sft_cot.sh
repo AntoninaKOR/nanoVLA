@@ -19,7 +19,7 @@ python -m vla.train_sft \
     --lr_backbone 5e-5 \
     --eval_interval 200 \
     --env_eval_interval 500 \
-    --eval_episodes 50 \
+    --eval_episodes 10 \
     --output_dir vla/checkpoints/sft_cot
 
 echo "Done. Checkpoint saved to vla/checkpoints/sft_cot/"

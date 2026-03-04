@@ -17,7 +17,7 @@ python -m vla.train_grpo \
     --lr 1e-5 \
     --kl_coeff 0.1 \
     --eval_interval 5 \
-    --eval_episodes 50 \
+    --eval_episodes 10 \
     --output_dir vla/checkpoints/grpo_action
 
 echo "Done. Checkpoint saved to vla/checkpoints/grpo_action/"
