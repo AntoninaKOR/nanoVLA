@@ -209,6 +209,7 @@ def train_sft(args):
                         model, tokenizer, image_processor, cfg,
                         num_episodes=args.eval_episodes,
                         env_size=args.env_size,
+                        max_steps_per_episode=args.max_steps_per_episode,
                         device=device,
                         output_format=args.output_format,
                     )
@@ -235,8 +236,9 @@ def train_sft(args):
     model.eval()
     final_result = evaluate_in_env(
         model, tokenizer, image_processor, cfg,
-        num_episodes=100, env_size=args.env_size, device=device,
-        output_format=args.output_format,
+        num_episodes=100, env_size=args.env_size,
+        max_steps_per_episode=args.max_steps_per_episode,
+        device=device, output_format=args.output_format,
     )
     final_result["step"] = global_step
     eval_results.append(final_result)
@@ -307,7 +309,8 @@ def parse_args():
     parser.add_argument("--log_interval", type=int, default=50)
     parser.add_argument("--eval_interval", type=int, default=200)
     parser.add_argument("--env_eval_interval", type=int, default=500)
-    parser.add_argument("--eval_episodes", type=int, default=50)
+    parser.add_argument("--eval_episodes", type=int, default=10)
+    parser.add_argument("--max_steps_per_episode", type=int, default=20)
     parser.add_argument("--env_size", type=int, default=8)
     # Output
     parser.add_argument("--output_dir", type=str, default="vla/checkpoints/sft")
