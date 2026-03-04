@@ -64,7 +64,6 @@ multiprocess==0.70.18
 networkx==3.6.1
 numpy==2.4.2
 oauthlib==3.3.1
-packaging @ file:///opt/miniconda3/conda-bld/packaging_1761049079150/work
 pandas==3.0.1
 pillow==12.1.1
 platformdirs==4.9.2

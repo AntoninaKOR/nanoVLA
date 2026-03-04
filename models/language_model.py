@@ -270,9 +270,11 @@ class LanguageModelGroupedQueryAttention(nn.Module):
         if self.sdpa and x.device.type != 'mps':
             # During decode, no additional masking needed as [1, T_kv] is naturally causal
             is_causal = (T_curr == T_kv and T_curr > 1)
+            # SDPA does not allow attn_mask when is_causal=True
+            sdpa_mask = None if is_causal else additive_attn_mask
             y = torch.nn.functional.scaled_dot_product_attention(
                 q, k_exp, v_exp,
-                attn_mask=additive_attn_mask, 
+                attn_mask=sdpa_mask, 
                 dropout_p=self.dropout if self.training else 0.0,
                 is_causal=is_causal
             )
