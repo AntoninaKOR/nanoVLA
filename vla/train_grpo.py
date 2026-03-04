@@ -321,6 +321,7 @@ def train_grpo(args):
                 model, tokenizer, image_processor, cfg,
                 num_episodes=args.eval_episodes,
                 env_size=args.env_size,
+                max_steps_per_episode=args.max_steps_per_episode,
                 device=device,
                 output_format=args.output_format,
             )
@@ -345,8 +346,9 @@ def train_grpo(args):
     # Final eval
     result = evaluate_in_env(
         model, tokenizer, image_processor, cfg,
-        num_episodes=100, env_size=args.env_size, device=device,
-        output_format=args.output_format,
+        num_episodes=args.eval_episodes, env_size=args.env_size,
+        max_steps_per_episode=args.max_steps_per_episode,
+        device=device, output_format=args.output_format,
     )
     result["iteration"] = args.num_iterations
     eval_results.append(result)
@@ -384,7 +386,8 @@ def parse_args():
     parser.add_argument("--clip_range", type=float, default=0.2)
     # Eval
     parser.add_argument("--eval_interval", type=int, default=5)
-    parser.add_argument("--eval_episodes", type=int, default=50)
+    parser.add_argument("--eval_episodes", type=int, default=10)
+    parser.add_argument("--max_steps_per_episode", type=int, default=20)
     # Output
     parser.add_argument("--output_dir", type=str, default="vla/checkpoints/grpo_action")
     # Comet ML

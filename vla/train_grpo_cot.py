@@ -102,6 +102,7 @@ def train_grpo_cot(args):
                 model, tokenizer, image_processor, cfg,
                 num_episodes=args.eval_episodes,
                 env_size=args.env_size,
+                max_steps_per_episode=args.max_steps_per_episode,
                 device=device,
                 output_format="cot",
             )
@@ -124,8 +125,9 @@ def train_grpo_cot(args):
 
     result = evaluate_in_env(
         model, tokenizer, image_processor, cfg,
-        num_episodes=100, env_size=args.env_size, device=device,
-        output_format="cot",
+        num_episodes=args.eval_episodes, env_size=args.env_size,
+        max_steps_per_episode=args.max_steps_per_episode,
+        device=device, output_format="cot",
     )
     result["iteration"] = args.num_iterations
     eval_results.append(result)
@@ -160,7 +162,8 @@ def parse_args():
     parser.add_argument("--kl_coeff", type=float, default=0.1)
     parser.add_argument("--clip_range", type=float, default=0.2)
     parser.add_argument("--eval_interval", type=int, default=5)
-    parser.add_argument("--eval_episodes", type=int, default=50)
+    parser.add_argument("--eval_episodes", type=int, default=10)
+    parser.add_argument("--max_steps_per_episode", type=int, default=20)
     parser.add_argument("--output_dir", type=str, default="vla/checkpoints/grpo_cot")
     # Comet ML
     parser.add_argument("--comet_project", type=str, default="nanoVLA", help="Comet ML project name")

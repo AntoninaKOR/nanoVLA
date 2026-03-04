@@ -236,7 +236,7 @@ def train_sft(args):
     model.eval()
     final_result = evaluate_in_env(
         model, tokenizer, image_processor, cfg,
-        num_episodes=100, env_size=args.env_size,
+        num_episodes=args.eval_episodes, env_size=args.env_size,
         max_steps_per_episode=args.max_steps_per_episode,
         device=device, output_format=args.output_format,
     )
