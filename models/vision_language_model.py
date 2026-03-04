@@ -221,7 +221,11 @@ class VisionLanguageModel(nn.Module):
 
         # Load config
         with open(config_path, "r") as f:
-            cfg = VLMConfig(**json.load(f))
+            config_data = json.load(f)
+        # Filter out keys not in VLMConfig to handle newer/older configs
+        valid_keys = {f.name for f in __import__('dataclasses').fields(VLMConfig)}
+        config_data = {k: v for k, v in config_data.items() if k in valid_keys}
+        cfg = VLMConfig(**config_data)
 
         # Initialize model without loading the backbone
         model = cls(cfg, load_backbone=False)
